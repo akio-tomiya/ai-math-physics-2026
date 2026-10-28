@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#14263a">
+    <meta name="description" content="10月12日のオンライン座談会「OpenAI論文と理論物理」の続きとして、AIが数学や理論物理の研究をどう変えるかを対面で議論する研究会。2026年11月16日（月）13:30から、東京大学本郷キャンパスで開催。">
+    <title>AIと数学・理論物理のいま：GPT研究会から3年</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif;
+        font-synthesis: none;
+        --ink: #14263a;
+        --muted: #5a6b7b;
+        --accent: #c4562f;
+        --accent-soft: #f6e4da;
+        --teal: #1f6f78;
+        --line: #d6dde0;
+        --paper: #f8f7f3;
+        --card: #ffffff;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.8; }
+      a { color: inherit; text-underline-offset: .25em; }
+      a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+      .wrap { width: min(100% - 3rem, 1080px); margin-inline: auto; }
+
+      /* ヘッダー */
+      .hero {
+        position: relative; overflow: hidden; isolation: isolate;
+        padding: 36px 0 110px; background: var(--ink); color: #fff;
+      }
+      .hero::before {
+        content: ""; position: absolute; z-index: -1; inset: auto -180px -260px auto;
+        width: 640px; aspect-ratio: 1; border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, rgba(196, 86, 47, .55), rgba(196, 86, 47, 0) 62%);
+      }
+      .hero::after {
+        content: ""; position: absolute; z-index: -1; top: 90px; right: 9%;
+        width: 340px; aspect-ratio: 1; border: 1px solid rgba(255, 255, 255, .16); border-radius: 50%;
+        box-shadow: 0 0 0 70px rgba(0,0,0,0), 0 0 0 71px rgba(255,255,255,.08);
+      }
+      .topline {
+        display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; justify-content: space-between;
+        padding-bottom: 22px; border-bottom: 1px solid rgba(255,255,255,.2);
+        font-size: .78rem; font-weight: 700; letter-spacing: .14em; color: #c9d6dd;
+      }
+      .badge {
+        display: inline-block; margin-top: 64px; padding: 4px 12px;
+        background: var(--accent); color: #fff; font-size: .8rem; font-weight: 700; letter-spacing: .1em;
+      }
+      h1 {
+        margin: 18px 0 0; font-size: clamp(2.4rem, 6vw, 4.8rem); font-weight: 800;
+        letter-spacing: -.05em; line-height: 1.22;
+      }
+      .sub { margin: 14px 0 0; color: #f0a283; font-size: clamp(1rem, 1.8vw, 1.2rem); font-weight: 700; letter-spacing: .04em; }
+      .lead { max-width: 680px; margin: 26px 0 0; color: #dbe5e8; font-size: clamp(1rem, 1.6vw, 1.12rem); line-height: 1.95; }
+
+      /* 開催情報 */
+      .facts {
+        position: relative; z-index: 1; margin-top: -64px;
+        display: grid; grid-template-columns: 1.15fr 1fr .85fr;
+        background: var(--card); border: 1px solid var(--line);
+        box-shadow: 0 18px 46px rgba(20, 38, 58, .1);
+      }
+      .facts > div { padding: 24px 30px 26px; }
+      .facts > div + div { border-left: 1px solid var(--line); }
+      .label { margin: 0 0 6px; color: var(--accent); font-size: .74rem; font-weight: 800; letter-spacing: .14em; }
+      .big { margin: 0; font-size: clamp(1.15rem, 2.1vw, 1.5rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.45; }
+      .small { margin: 6px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+      section { padding: 84px 0 0; }
+      h2 { margin: 0 0 22px; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -.04em; line-height: 1.35; }
+      .prose p { max-width: 760px; margin: 0 0 16px; font-size: 1.03rem; line-height: 2; }
+
+      /* これまでの流れ */
+      .timeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 26px; }
+      .step { position: relative; padding: 20px 20px 22px; background: var(--card); border: 1px solid var(--line); }
+      .step .year { color: var(--teal); font-size: .82rem; font-weight: 800; letter-spacing: .08em; }
+      .step .name { margin-top: 6px; font-weight: 700; line-height: 1.55; }
+      .step .note { margin-top: 8px; color: var(--muted); font-size: .86rem; line-height: 1.7; }
+      .step.now { background: var(--ink); color: #fff; border-color: var(--ink); }
+      .step.now .year { color: #f0a283; }
+      .step.now .note { color: #c9d6dd; }
+
+      /* これまでの流れ（縦の年表） */
+      .legend { margin: 0 0 14px; color: var(--muted); font-size: .86rem; }
+      .dot { display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 50%; vertical-align: middle; }
+      .dot.ai { background: #9aa7b1; }
+      .dot.ours { background: var(--accent); }
+      .tl { position: relative; margin: 0; padding: 0 0 0 4px; list-style: none; }
+      .tl::before { content: ""; position: absolute; left: 112px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+      .tl li { position: relative; display: grid; grid-template-columns: 96px 1fr; gap: 0 34px; padding: 9px 0; }
+      .tl li::before { content: ""; position: absolute; left: 103px; top: 17px; width: 12px; height: 12px; border-radius: 50%; background: #9aa7b1; border: 3px solid var(--paper); }
+      .tl li.ours::before { background: var(--accent); }
+      .tl li.now::before { width: 16px; height: 16px; left: 101px; top: 15px; background: var(--ink); box-shadow: 0 0 0 3px var(--accent); }
+      .tl .when { font-weight: 800; color: var(--teal); font-size: .9rem; letter-spacing: .04em; text-align: right; padding-top: 2px; }
+      .tl .what { line-height: 1.7; }
+      .tl li.ai .what { color: var(--muted); }
+      .tl li.ours .what { font-weight: 700; }
+      .tl li.now .what { font-size: 1.08rem; }
+      .tl small { display: block; font-weight: 400; color: var(--muted); font-size: .86rem; }
+
+      /* 当日の構成 */
+      .parts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .part { padding: 26px 28px 28px; background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--teal); }
+      .part.closed { border-top-color: var(--accent); }
+      .part .time { font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; }
+      .part .tag { display: inline-block; margin-left: 8px; padding: 2px 8px; font-size: .74rem; font-weight: 700; vertical-align: middle; background: #e3f0f1; color: var(--teal); }
+      .part.closed .tag { background: var(--accent-soft); color: var(--accent); }
+      .part h3 { margin: 10px 0 8px; font-size: 1.15rem; }
+      .part p { margin: 0; color: var(--muted); line-height: 1.85; }
+
+      /* 登壇者 */
+      .people { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 0; margin: 0; list-style: none; }
+      .people li { padding: 20px 22px; background: var(--card); border: 1px solid var(--line); }
+      .people .pname { font-size: 1.25rem; font-weight: 700; }
+      .people .paff { color: var(--muted); font-size: .86rem; }
+      .tbd { margin: 0; color: var(--muted); }
+
+      /* 参加登録 */
+      .register {
+        display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center;
+        padding: 34px 38px; background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--accent);
+      }
+      .register p { margin: 0 0 8px; line-height: 1.9; }
+      .button { display: inline-block; padding: 15px 24px; background: var(--accent); color: #fff; font-weight: 700; text-decoration: none; white-space: nowrap; }
+      .button:hover { background: #a9461f; }
+
+      /* アクセス */
+      .access { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      .access > div { padding: 24px 28px; background: var(--card); border: 1px solid var(--line); }
+      .access p { margin: 0 0 8px; }
+
+      footer { margin-top: 96px; padding: 44px 0 52px; background: #e9eeee; border-top: 1px solid var(--line); }
+      .orgs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 22px; }
+      .orgs .label { color: var(--teal); }
+      .orgs p { margin: 0; font-size: .95rem; line-height: 1.75; }
+      .contact { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); font-size: .9rem; }
+
+      @media (max-width: 760px) {
+        .wrap { width: min(100% - 2rem, 1080px); }
+        .hero { padding-bottom: 92px; }
+        .hero::after { display: none; }
+        .badge { margin-top: 40px; }
+        .facts { grid-template-columns: 1fr; margin-top: -50px; }
+        .facts > div + div { border-left: 0; border-top: 1px solid var(--line); }
+        section { padding-top: 64px; }
+        .parts, .people, .access, .orgs { grid-template-columns: 1fr; }
+        .tl::before { left: 76px; }
+        .tl li { grid-template-columns: 64px 1fr; gap: 0 28px; }
+        .tl li::before { left: 67px; }
+        .tl li.now::before { left: 65px; }
+        .tl .when { font-size: .8rem; }
+        .register { grid-template-columns: 1fr; padding: 26px 22px; }
+        .button { white-space: normal; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <div class="topline"><span>学習物理学 ・ ARiSE ・ BOOST</span><span>IN-PERSON WORKSHOP / TOKYO</span></div>
+        <span class="badge">対面研究会</span>
+        <h1>AIと数学・<br>理論物理のいま</h1>
+        <p class="sub">GPT研究会から3年　／　座談会「OpenAI論文と理論物理」の続き</p>
+        <p class="lead">AIは数学や理論物理の研究をどう変えるのか。10月12日のオンライン座談会で始めた議論を、会場に集まって続けます。</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap facts" aria-label="開催情報">
+        <div>
+          <p class="label">DATE</p>
+          <p class="big"><time datetime="2026-11-16T13:30:00+09:00">2026年11月16日（月）</time></p>
+          <p class="small">13:30〜16:00 公開の部（配信あり）<br>16:15〜17:45 クローズドの部（会場のみ）</p>
+        </div>
+        <div>
+          <p class="label">VENUE</p>
+          <p class="big">東京大学 本郷キャンパス</p>
+          <p class="small">理学部1号館 2階 233教室</p>
+        </div>
+        <div>
+          <p class="label">ENTRY</p>
+          <p class="big">事前登録・先着順</p>
+          <p class="small">参加費無料</p>
+        </div>
+      </div>
+
+      <section class="wrap prose" aria-labelledby="about-title">
+        <h2 id="about-title">開催の趣旨</h2>
+        <p>2023年5月、私たちは理研で研究会<a href="https://akio-tomiya.github.io/gpt_for_science/">「Exploring GPT's Influence on Natural Science and Mathematics」</a>を開き、ChatGPTが物理学者や数学者の道具になるのかを議論しました。2024年11月には、AIを対象にしたノーベル賞を受けて<a href="https://akio-tomiya.github.io/nobel2024/">研究会</a>を開き、「これから」を語り合いました。</p>
+        <p>それから数年で、AIは数学の未解決問題に手を伸ばすところまで来ています。今回の研究会は、あのとき話したことの答え合わせの場でもあります。AIが出した結果をどう確かめるのか、研究者の仕事や若手の育成はどう変わるのかを、物理、数学、AIの研究者と会場の皆さんで考えます。</p>
+      </section>
+
+      <section class="wrap" aria-labelledby="history-title">
+        <h2 id="history-title">これまでの流れ</h2>
+        <p class="legend"><span class="dot ai"></span>AI の出来事　<span class="dot ours"></span>私たちの研究会</p>
+        <ol class="tl">
+          <li class="ai"><span class="when">2022.11</span><span class="what">ChatGPT 公開</span></li>
+          <li class="ours"><span class="when">2023.05</span><span class="what"><a href="https://akio-tomiya.github.io/gpt_for_science/">GPT研究会</a>（理研和光）<small>ChatGPTは研究の道具になるか</small></span></li>
+          <li class="ours"><span class="when">2024.11</span><span class="what"><a href="https://akio-tomiya.github.io/nobel2024/">ノーベル賞とAIの研究会</a>（筑波大東京キャンパス）<small>AIで自然科学はどう変わるか</small></span></li>
+          <li class="ai"><span class="when">2024.12</span><span class="what">推論モデル o3 発表</span></li>
+          <li class="ai"><span class="when">2025.07</span><span class="what">国際数学オリンピックの問題で金メダル相当の成績</span></li>
+          <li class="ai"><span class="when">2025.08</span><span class="what">GPT-5 公開</span></li>
+          <li class="ai"><span class="when">2026.09</span><span class="what">GPT-6 公開。Navier–Stokes 方程式の爆発解の証明を発表</span></li>
+          <li class="ai"><span class="when">2026.10</span><span class="what">AI が書いた数学の原稿 722 篇を一度に公開（Lean で形式化されたのは一部）</span></li>
+          <li class="ours"><span class="when">2026.10</span><span class="what"><a href="https://akio-tomiya.github.io/openai-theory-physics-roundtable-2026/">オンライン座談会「OpenAI論文と理論物理」</a><small>YouTube Live</small></span></li>
+          <li class="ai"><span class="when">2026.10</span><span class="what">Kakeya 予想、指数時間仮説の反証、Yang–Mills 理論の存在の証明を発表（質量ギャップは未解決。物理の結果は専門家が検証中）</span></li>
+          <li class="ours now"><span class="when">2026.11.16</span><span class="what">対面研究会（東大本郷）<small>答え合わせと、その先</small></span></li>
+        </ol>
+      </section>
+
+      <section class="wrap" aria-labelledby="format-title">
+        <h2 id="format-title">当日の構成</h2>
+        <div class="parts">
+          <div class="part">
+            <div class="time">13:30〜16:00<span class="tag">配信あり</span></div>
+            <h3>公開の部</h3>
+            <p>物理、数学、AIの研究者による講演。途中に長めのお茶休憩をはさみ、参加者どうしで話せる時間を取ります。</p>
+          </div>
+          <div class="part closed">
+            <div class="time">16:15〜17:45<span class="tag">会場のみ</span></div>
+            <h3>クローズドの部</h3>
+            <p>配信も録画もせず、会場の参加者だけで話します。ライトニングトークと自由な議論を行います。話した内容は公開しませんが、後日、どのような話題が出たかを発言者が分からない形で紹介することがあります。ライトニングトークの希望は参加登録のときに受け付けます。</p>
+          </div>
+        </div>
+        <p class="small">プログラムの詳細は決まりしだい掲載します。</p>
+      </section>
+
+      <section class="wrap" aria-labelledby="people-title">
+        <h2 id="people-title">登壇者</h2>
+        <p class="tbd">決まりしだい掲載します。</p>
+      </section>
+
+      <section class="wrap" aria-labelledby="register-title">
+        <div class="register">
+          <div>
+            <p class="label">REGISTRATION</p>
+            <h2 id="register-title" style="margin-bottom:10px">参加登録</h2>
+            <p>会場での参加は事前登録制で、定員に限りがあるため先着順です。フォームを送信しても、その時点では参加が確定したことにはなりません。定員の範囲内のお申し込みには、送信から3日以内（土日祝日を除く）に参加確定のメールをお送りします。出張などの手続きにお使いください。定員を超えた場合は、キャンセル待ちであることを同じくお知らせし、空きが出しだい申し込み順にご連絡します。当日のご案内は11月13日ごろにお送りします。参加費は無料です。休憩時にお茶とお菓子を用意しますので、お茶代として500円をいただきます（当日、受付にて）。</p>
+            <p>参加できなくなった場合は、登録後に届く確認メールのリンクから「キャンセルする」を選んでください。会場に来られない方は、公開の部の配信をご覧ください（URLは後日このページでお知らせします）。</p>
+          </div>
+          <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSd4TYhv65PaPoGk9jGEAgSMjtXfJ6rtapbjtq1ldjORNgZdMg/viewform">参加登録フォーム ↗</a>
+        </div>
+      </section>
+
+      <section class="wrap" aria-labelledby="access-title">
+        <h2 id="access-title">会場とアクセス</h2>
+        <div class="access">
+          <div>
+            <p class="label">VENUE</p>
+            <p><strong>東京大学 本郷キャンパス 理学部1号館 2階 233教室</strong></p>
+            <p class="small">東京都文京区本郷7-3-1</p>
+          </div>
+          <div>
+            <p class="label">ACCESS</p>
+            <p>東京メトロ南北線「東大前」駅から徒歩6分</p>
+            <p>東京メトロ丸ノ内線・都営大江戸線「本郷三丁目」駅から徒歩10分</p>
+            <p class="small"><a href="https://www.s.u-tokyo.ac.jp/ja/access.html">理学部のアクセスのページ</a></p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <div class="orgs">
+          <div>
+            <p class="label">主催</p>
+            <p><a href="https://mlphys.scphys.kyoto-u.ac.jp/">科研費・学術変革領域研究（A）「学習物理学」の創成</a></p>
+          </div>
+          <div>
+            <p class="label">共催</p>
+            <p>JST ARiSE「数理物理統合AIの創成」</p>
+          </div>
+          <div>
+            <p class="label">共催</p>
+            <p><a href="https://www.jst.go.jp/program/boost/yr/research/project_2024.html">JST BOOST 次世代AI人材育成プログラム（若手研究者支援）「機械学習技術を用いた場の量子論の計算法の確立」</a>（研究代表者：富谷昭夫、JPMJBY24F1）</p>
+          </div>
+        </div>
+        <p class="contact">世話人：富谷昭夫（東京女子大学）　お問い合わせ：<a href="mailto:akio@yukawa.kyoto-u.ac.jp">akio@yukawa.kyoto-u.ac.jp</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
