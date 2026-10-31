@@ -120,6 +120,14 @@
       .people .paff { color: var(--muted); font-size: .86rem; }
       .tbd { margin: 0; color: var(--muted); }
 
+      /* プログラム */
+      .prog { width: 100%; margin-top: 18px; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); }
+      .prog td { padding: 10px 14px; border-top: 1px solid var(--line); vertical-align: top; line-height: 1.7; }
+      .prog tr:first-child td { border-top: none; }
+      .prog td.t { width: 7.5em; white-space: nowrap; font-weight: 700; }
+      .prog .who { display: block; color: var(--muted); font-size: .9rem; }
+      .prog tr.closed td.t { color: var(--accent); }
+
       /* 参加登録 */
       .register {
         display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center;
@@ -156,6 +164,8 @@
         .tl .when { font-size: .8rem; }
         .register { grid-template-columns: 1fr; padding: 26px 22px; }
         .button { white-space: normal; text-align: center; }
+        .prog td { padding: 8px 10px; }
+        .prog td.t { width: 5.5em; white-space: normal; font-size: .9rem; }
       }
     </style>
   </head>
@@ -175,7 +185,7 @@
         <div>
           <p class="label">DATE</p>
           <p class="big"><time datetime="2026-11-16T13:30:00+09:00">2026年11月16日（月）</time></p>
-          <p class="small">13:30〜16:00 公開の部（配信あり）<br>16:15〜17:45 クローズドの部（会場のみ）<br>時刻は少し変わることがあります</p>
+          <p class="small">13:30〜16:00 公開の部（配信あり）<br>16:20ごろ〜17:45 クローズドの部（会場のみ）<br>時刻は少し変わることがあります</p>
         </div>
         <div>
           <p class="label">VENUE</p>
@@ -218,24 +228,40 @@
         <h2 id="format-title">当日の構成</h2>
         <div class="parts">
           <div class="part">
-            <div class="time">13:30〜16:00<span class="tag">配信あり</span></div>
+            <div class="time">13:30〜16:00ごろ<span class="tag">配信あり</span></div>
             <h3>公開の部</h3>
             <p>物理、数学、AIの研究者による講演。途中に長めのお茶休憩をはさみ、参加者どうしで話せる時間を取ります。</p>
           </div>
           <div class="part closed">
-            <div class="time">16:15〜17:45<span class="tag">会場のみ</span></div>
+            <div class="time">16:20ごろ〜17:45<span class="tag">会場のみ</span></div>
             <h3>クローズドの部</h3>
             <p>配信も録画もせず、会場の参加者だけで話します。ライトニングトークと自由な議論を行います。話した内容は公開しませんが、後日、どのような話題が出たかを発言者が分からない形で紹介することがあります。ライトニングトークの希望は参加登録のときに受け付けます。</p>
           </div>
         </div>
-        <p class="small">プログラムの詳細は決まりしだい掲載します。</p>
+        <h3 style="margin-top:28px">プログラム（予定）</h3>
+        <table class="prog">
+          <tr><td class="t">13:30ごろ</td><td>開会・趣旨（約5分）</td></tr>
+          <tr><td class="t">13:35ごろ</td><td>基調講演（約25分）<span class="who">橋本 幸士（京都大学）</span></td></tr>
+          <tr><td class="t">14:00ごろ</td><td>AIは何を成し遂げたのか：解かれた問題の専門家から（約40分）<span class="who">渡邉 究（中央大学）、坂上 貴之（京都大学、オンライン）ほか</span></td></tr>
+          <tr><td class="t">14:40ごろ</td><td>お茶休憩（約20分）</td></tr>
+          <tr><td class="t">15:00ごろ</td><td>AIを用いた研究の加速（約10分）<span class="who">富谷 昭夫（東京女子大学）</span></td></tr>
+          <tr><td class="t">15:10ごろ</td><td>調整中（約25分）</td></tr>
+          <tr><td class="t">15:35ごろ</td><td>講演（約30分）<span class="who">今井 翔太（北陸先端科学技術大学院大学）</span></td></tr>
+          <tr><td class="t">16:05ごろ</td><td>クロージング（約5分）</td></tr>
+          <tr class="closed"><td class="t">16:20ごろ〜17:45</td><td>クローズドの部：ライトニングトークと議論（会場のみ）</td></tr>
+        </table>
+        <p class="small">公開の部の司会：今泉 允聡（東京大学）。時刻と内容は変わることがあります。</p>
       </section>
 
       <section class="wrap" aria-labelledby="people-title">
         <h2 id="people-title">登壇者</h2>
         <ul class="people">
           <li><p class="label">基調講演</p><p class="pname">橋本 幸士</p><p class="paff">京都大学</p></li>
+          <li><p class="label">講演</p><p class="pname">渡邉 究</p><p class="paff">中央大学</p></li>
+          <li><p class="label">講演（オンライン）</p><p class="pname">坂上 貴之</p><p class="paff">京都大学</p></li>
           <li><p class="label">講演</p><p class="pname">今井 翔太</p><p class="paff">北陸先端科学技術大学院大学</p></li>
+          <li><p class="label">話題提供</p><p class="pname">富谷 昭夫</p><p class="paff">東京女子大学</p></li>
+          <li><p class="label">公開の部の司会</p><p class="pname">今泉 允聡</p><p class="paff">東京大学</p></li>
         </ul>
         <p class="small">ほかの登壇者は決まりしだい追加します。</p>
       </section>
